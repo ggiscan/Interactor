@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+	<div id="products" class="container">
+	  <div class="row">
+		<div class="col-sm-3">
+		{% block user %}
+		{% endblock %}
+	    <table class="table table-hover table-striped">
+			<thead>
+				<tr>
+					<th>{% if user %} {{user[0]}}'s {% endif %} PRODUCTS</th>
+				  <th/>
+				  <th>
+				  {% if user %}
+					<div id="otherProducts" style="display: none;" >
+						 <select class="form-control" id="modalInput">
+						 {% for op in other_products %}
+					 	   <option value="{{op}}">{{op}}</option>
+						 {% endfor %}
+						</select> 
+					</div>
+				  {% endif %}
+					<a href="javascript:showModal('products'{% if user %},'otherProducts'{% endif %})">
+						<span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="New product"></span>
+					</a>
+				  </th>
+				</tr>
+			 </thead>
+			 <tbody>
+				{% for product in products %}
+				 <tr>
+					<td align>
+						<span class="badge">{{product[1]}}</span>
+						<span class="label label-info">{{product[0]}}</span>
+					</td>
+					<td align="right">
+						<a href="{{product[2]}}">
+							<span class="glyphicon glyphicon-zoom-in" data-toggle="tooltip" title="View product"></span>
+						</a>
+					</td>
+					<td>
+						<a href="#" onclick="postForm('{{product[2]}}', 'delete')">
+							<span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="Remove product"></span>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+		<div class="col-sm-3"/>
+		<div class="col-sm-3"/>
+		<div class="col-sm-3"/>
+	</div>
+	</div>
+{% endblock %}

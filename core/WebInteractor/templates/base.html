@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% if title %}
+	<title>{{title}}</title>
+	{% else %}
+  <title>Interactor admin</title>
+  {% endif %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+.jumbotron {
+    background-color: #f4511e; /* Orange */
+    color: #ffffff;
+}
+.btn {
+    background-color: #f4511e; /* Orange */
+    color: #ffffff;
+}
+.container {
+    padding: 0px 0px;
+}
+
+.spaced {
+    margin-top: 40px;
+}
+
+.nav {
+    margin-bottom: 0;
+    background-color: #f4511e;
+    letter-spacing: 4px;
+    border-radius: 0;
+}
+
+.nav li a, .nav{
+    color: #fff !important;
+}
+
+.nav li a:hover, .nav li.active a {
+    color: #f4511e !important;
+    background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+}
+
+thead {
+ background-color: lightblue;
+}
+.coloured{
+ background-color: gray;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+  border-style: solid;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 40px;
+  
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+
+
+</style>
+
+<body>
+<script type="text/javascript">
+
+function postForm(theAction)
+{
+  var myform = document.myform;
+  myform.reset();
+  myform.action = theAction;
+  myform.method = 'POST';
+  for (var i = 1; i < arguments.length; i++) {
+	var arg = arguments[i];
+	if (typeof arg == 'object'){
+		myform.elements[i-1].value = arg.value;
+	}else{
+		myform.elements[i-1].value = arg;
+	}
+  }
+  myform.submit();
+}
+function showModal(section, selectElemId){
+ var title = "";
+ var label = "";
+ if (section == 'products'){
+	title = "Add a product";
+	label = "Product name:";
+ }else{
+	title = "Add a user";
+	label = "User name:";
+ }
+ $("#modalTitle" ).text(title);
+ $("#modalLabel" ).text(label);
+ if(selectElemId == null){
+	$("#modalFormGroup").append('<input type="text" class="form-control" id="modalInput">');
+ }
+ else{
+	var sele = $('#'+selectElemId);
+	$("#modalFormGroup").append(sele.html());
+ }
+ $("#myModal").modal();
+ $('#myModal').on('shown.bs.modal', function () {
+    $('#modalInput').focus();
+ })
+ 
+}
+
+</script>
+<form name="myform" action="" method="POST">
+<input type="hidden" name="param1" value="">
+<input type="hidden" name="param2" value="">
+</form>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+<div class="modal-dialog modal-sm">
+  <div class="modal-content">
+	<div class="modal-header">
+	  <button type="button" class="close" data-dismiss="modal">&times;</button>
+	  <h4 class="modal-title" id="modalTitle"></h4>
+	</div>
+	<div class="modal-body">
+	  <form role="form">
+		  <div class="form-group" id="modalFormGroup">
+			<label for="modalinput" id="modalLabel"></label>
+		  </div>
+	  </form>
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-default" onclick="postForm('','put', document.getElementById('modalInput'))" data-dismiss="modal">Add</button>
+	</div>
+  </div>
+</div>
+</div>
+<div class="coloured">
+ <div class="container">
+	 <ul class="nav nav-tabs">
+	  <li><a href="/products">PRODUCTS</a></li>
+	  <li><a href="/users">USERS</a></li>
+	  <li><a href="#portfolio">REQUESTS</a></li>
+	 </ul>
+	 <p class="spaced">
+	{% block content %}{% endblock %}
+	</p>
+</div>
+<footer class="footer">
+ <div class="container">
+  <p>Interactor admin <span class="glyphicon glyphicon-copyright-mark">ggiscan@yahoo.com</p>
+  </div>
+</footer>
+</div>
+</body>
+</html>

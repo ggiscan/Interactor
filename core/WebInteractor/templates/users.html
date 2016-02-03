@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+	<div id="users" class="container">
+	  <div class="row">
+		<div class="col-sm-3">
+		<table class="table table-hover table-striped">
+			<thead>
+				<tr>
+				  <th>
+				   {%if product %}
+				    {{product}}'s
+				   {% endif %}
+				     USERS
+				  </th>
+				  <th/>
+				  <th>
+				  	{% if product %}
+					<div id="otherUsers" style="display: none;" >
+						 <select class="form-control" id="modalInput">
+						 {% for ou in other_users %}
+					 	   <option value="{{ou}}">{{ou}}</option>
+						 {% endfor %}
+						</select> 
+					</div>
+				   {% endif %}
+					<a href="javascript:showModal('users'{% if product %},'otherUsers'{% endif %})">
+						<span class="glyphicon glyphicon-plus" data-toggle="tooltip" title="New user"></span>
+					</a>
+				  </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+				 <tr class="{% if user[2] %}success{% else %}warning{% endif %}">
+					<td>
+						<span class="badge">{{user[1]}}</span>
+						<span class="label label-info">{{user[0]}}</span>
+					</td>
+					<td align="right">
+						<a href="{{user[3]}}">
+							<span class="glyphicon glyphicon-zoom-in" data-toggle="tooltip" title="View user"></span>
+						</a>
+					</td>
+					<td>
+						<a href="#" onclick="postForm('{{user[3]}}', 'delete')">
+							<span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="Remove user"></span>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+		<div class="col-sm-3"/>
+		<div class="col-sm-3"/>
+		<div class="col-sm-3"/>
+	</div>
+	</div>
+{% endblock %}
